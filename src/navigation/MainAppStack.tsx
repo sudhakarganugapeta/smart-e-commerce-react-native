@@ -4,6 +4,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import AuthStack from './AuthStack'
 import { createStackNavigator } from '@react-navigation/stack'
 import MainAppBottomTabs from './MainAppBottomTabs'
+import CheckoutScreen from '../screens/checkout/CheckoutScreen'
+import MyOrders from '../components/orders/MyOrders'
 const Stack = createStackNavigator()
 const MainAppStack = () => {
   return (
@@ -14,6 +16,12 @@ const MainAppStack = () => {
     >
         <Stack.Screen name="Auth" component={AuthStack}></Stack.Screen>
         <Stack.Screen name="Main" component={MainAppBottomTabs}/>
+        <Stack.Screen name="Checkout" 
+        options={{headerShown:true}}
+        component={CheckoutScreen}/>
+         <Stack.Screen name="MyOrders" 
+        options={{headerShown:true,title:'My Orders'}}
+        component={MyOrders}/>
     </Stack.Navigator>
   )
 }
