@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import MainAppBottomTabs from './MainAppBottomTabs'
 import CheckoutScreen from '../screens/checkout/CheckoutScreen'
 import MyOrders from '../components/orders/MyOrders'
+import FlashMessage from 'react-native-flash-message'
 const Stack = createStackNavigator()
 const MainAppStack = () => {
   return (
@@ -14,6 +15,7 @@ const MainAppStack = () => {
         headerShown:false
     }}
     >
+       
         <Stack.Screen name="Auth" component={AuthStack}></Stack.Screen>
         <Stack.Screen name="Main" component={MainAppBottomTabs}/>
         <Stack.Screen name="Checkout" 

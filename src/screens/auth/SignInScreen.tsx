@@ -15,6 +15,9 @@ import AppTextInputController from "../../components/inputs/AppTextInputControll
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { showMessage } from 'react-native-flash-message'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../store/reducers/userSlice'
 
 const schema = yup
     .object({
@@ -36,6 +39,7 @@ const SignInScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
 
+    const dispatch = useDispatch()
     const navigation = useNavigation()
     const { control, handleSubmit } = useForm<FormData>({
         resolver: yupResolver(schema),
@@ -48,11 +52,32 @@ const SignInScreen = () => {
         data.email,
         data.password
       )
+      dispatch(setUser({ uid: userCredential.user.uid }))
       navigation.navigate("Main")
-      console.log(userCredential);
       
-    } catch (error) {
-      console.log(error)
+    } catch (error:any) {
+        console.log(error.code)
+      let errorMessage = "An error occurred during login. Please try again.";
+        if (error.code === "auth/user-not-found") {
+            errorMessage = "No user found with this email.";
+        } else if (error.code === "auth/wrong-password") {
+            errorMessage = "Incorrect password. Please try again.";
+        }else if (error.code === "auth/invalid-email") {
+            errorMessage = "Invalid email address. Please check and try again.";
+        }else if (error.code === "auth/network-request-failed") {
+            errorMessage = "Network error. Please check your connection and try again.";
+        }else if (error.code ==='auth/invalid-credential') {
+            errorMessage = "Invalid credential. Please try again.";
+         }else if (error.code === 'auth/too-many-requests') {
+            errorMessage = "Too many failed login attempts. Please try again later.";
+        } 
+         else{
+            errorMessage = "Error occurred. Please try again.";
+        }
+        showMessage({
+            type: "danger",
+            message: errorMessage,
+        })
     }
     }
     return (

@@ -1,17 +1,31 @@
 import { Alert, FlatList, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import HomeHeader from '../../components/headers/HomeHeader'
 import AppSaveView from '../../components/views/AppSaveView'
 import { appFonts } from '../../styles/fonts'
 import ProductCard from '../../components/cards/ProductCard'
-import { products } from '../../data/products'
+// import { products } from '../../data/products'
 import EmptyCart from '../../components/EmptyCart'
 import { useDispatch } from 'react-redux'
 import { addItemToCart } from '../../store/reducers/cartSlice'
 import { useNavigation } from '@react-navigation/native'
+import { getProductsData } from '../../data/dataServices'
 const HomeScreen = () => {
   const dispatch =useDispatch()
   const navigation = useNavigation()
+  const [products,setProducts] = React.useState([])
+
+  const fetchDaata = async()=>{
+    try {
+      const data = await getProductsData()
+      setProducts(data)
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  }
+  useEffect(() => {
+    fetchDaata()
+  },[])
   return (
     <AppSaveView>
       <HomeHeader />

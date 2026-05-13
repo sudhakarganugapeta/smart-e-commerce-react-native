@@ -26,10 +26,12 @@ export default function App() {
   return (
 <>
 <Provider store={store}>
- <NavigationContainer>
+ <AppSaveView>
+  <NavigationContainer>
+  <FlashMessage position={"top"}/>
    <MainAppStack/>
-
   </NavigationContainer>
+ </AppSaveView>
 
 </Provider>
 </>

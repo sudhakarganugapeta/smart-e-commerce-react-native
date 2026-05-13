@@ -1,54 +1,76 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import AppText from '../texts/AppText'
-import { AppColors } from '../../styles/color'
-import { s } from 'react-native-size-matters'
-import { appFonts } from '../../styles/fonts'
+import React from "react";
+import { View, StyleSheet } from "react-native";
 
-const OrderDetails = () => {
-  return (
-    <View style={styles.container}>
-      <AppText style={styles.title}>ORDER DETAILS</AppText>
-      <View style={styles.orderInfo}>
-        <AppText>Total Price: 123456</AppText>
-        <AppText>120.50 $</AppText>
-      </View>
-       <View style={styles.orderInfo}>
-        <AppText>Date:2025-01-01</AppText>
-        <AppText>2024-06-01</AppText>
-      </View>
-    </View>
-  )
+import AppText from "../texts/AppText";
+import { commonStyles } from "../../styles/sharedStyles";
+import { s } from "react-native-size-matters";
+import { AppColors } from "../../styles/color";
+
+interface OrderItemProps {
+  date: string;
+  style?: object;
+  totalAmount: number;
+  totalPrice: string;
 }
 
-export default OrderDetails
+const OrderItem: React.FC<OrderItemProps> = ({
+  date,
+  style,
+  totalAmount,
+  totalPrice,
+}) => {
+  return (
+    <View style={[styles.container, style]}>
+      <AppText style={styles.title}>Order Details :</AppText>
+      <View style={styles.divider} />
+      <View style={styles.summaryContainer}>
+        <View>
+          <AppText>Total Price: {totalPrice}</AppText>
+          <AppText>Date: {date}</AppText>
+        </View>
+        <View style={styles.amountContainer}>
+          <AppText style={styles.totalAmount}>
+            {Math.abs(totalAmount).toFixed(2)} $
+          </AppText>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default OrderItem;
 
 const styles = StyleSheet.create({
-    title:{
-        borderBottomColor:AppColors.primary,
-        borderBottomWidth:1,
-        paddingBottom:s(5),
-        marginBottom:s(10),
-        fontFamily:appFonts.Bold,
-    },
-    container:{
-        padding:20,
-        backgroundColor:AppColors.white,
-        borderRadius:10,
-        shadowColor:AppColors.primary,
-        shadowOffset:{width:0,height:2},
-        shadowOpacity:0.5,
-        shadowRadius:5.84,
-        elevation:5,
-        borderColor:AppColors.blueGray,
-        borderWidth:1,
-        marginVertical:s(5),
-        marginHorizontal:s(5)
-    },
-    orderInfo:{
-        marginBottom:s(10),
-        justifyContent:'space-between',
-        flexDirection:'row',
-         
-    }
-})
+  container: {
+    ...commonStyles.shadow,
+    backgroundColor: AppColors.white,
+    borderRadius: 10,
+    padding: s(15),
+  },
+  title: {
+    textTransform: "uppercase",
+    fontSize: 17,
+    marginBottom: 5,
+    color: AppColors.primary,
+  },
+  divider: {
+    height: 1,
+    width: "100%",
+    backgroundColor: AppColors.primary,
+  },
+  summaryContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 10,
+  },
+  amountContainer: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
+  totalAmount: {
+    color: AppColors.secondaryColor,
+  },
+  date: {
+    color: AppColors.secondaryColor,
+  },
+});
