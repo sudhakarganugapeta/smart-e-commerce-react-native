@@ -9,21 +9,34 @@ import { products } from '../../data/products'
 import AppButton from '../../components/buttons/AppButton'
 import { AppColors } from '../../styles/color'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store/store'
+import { addItemToCart, removeItemFromCart, removeProductFromCart } from '../../store/reducers/cartSlice'
 const CartScreen = () => {
+
   const navigate = useNavigation()
+  const items =useSelector((state:RootState)=>state.cartSlice.items)
+  const itemsPrice = items.reduce((acc,item)=>acc+item.sum,0)
+
+const dispatch = useDispatch()
   return (
     <AppSaveView>
       <HomeHeader/>
-      <FlatList
-        data={products}
+      {items.length>0?(<><FlatList
+        data={items}
         renderItem={({ item }) => (
-          <CartItem {...item} onPress={() => {}} />
+          <CartItem 
+          {...item} 
+          onReducePress = {()=>{dispatch(removeItemFromCart(item))}}
+          onIncreasePress={()=>{dispatch(addItemToCart(item))}}
+          onDeletePress={()=>dispatch(removeProductFromCart(item))}
+          onPress={() => {}} />
         )}
         keyExtractor={(item) => item.id}
       />
-      <TotalsView/>
-      <AppButton onPress={()=>{navigate.navigate('Checkout')}} title="Continue" backgroundColor={AppColors.primary} TextColor={AppColors.white}/>
-           {/* <EmptyCart /> */}
+      <TotalsView itemsPrice={itemsPrice} taxes={10} shippingFee={10}/>
+      <AppButton onPress={()=>{navigate.navigate('Checkout')}} title="Continue" backgroundColor={AppColors.primary} TextColor={AppColors.white}/></>):<EmptyCart />
+      }
     </AppSaveView>
   )
 }

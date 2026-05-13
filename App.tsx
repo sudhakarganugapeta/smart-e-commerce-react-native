@@ -11,6 +11,8 @@ import AuthStack from './src/navigation/AuthStack';
 import { NavigationContainer } from '@react-navigation/native';
 import MainAppStack from './src/navigation/MainAppStack';
 import {useFonts} from 'expo-font'
+import { Provider } from 'react-redux';
+import { store } from './src/store/store';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,10 +25,13 @@ export default function App() {
   }
   return (
 <>
+<Provider store={store}>
  <NavigationContainer>
    <MainAppStack/>
 
   </NavigationContainer>
+
+</Provider>
 </>
   );
 }

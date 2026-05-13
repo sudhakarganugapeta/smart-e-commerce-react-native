@@ -8,7 +8,7 @@ interface ProductCardProps {
     imageUrl:string;
     title:string;
     price:number;
-    onCartPress: () => void;
+    onCartPress: (v:any) => void;
 }
 const ProductCard: React.FC<ProductCardProps> = ({ imageUrl, title, price,onCartPress }) => {
   return (

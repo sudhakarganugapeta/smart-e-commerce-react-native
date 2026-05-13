@@ -4,24 +4,24 @@ import App from '../../../App'
 import AppText from '../texts/AppText'
 import { s, vs } from 'react-native-size-matters'
 
-const TotalsView = () => {
+const TotalsView = ({shippingFee,taxes,itemsPrice}) => {
     return (
         <View>
             <View style={styles.row}>
                 <AppText>Items Price:</AppText>
-                <AppText>$ 999.99</AppText>
+                <AppText>$ {itemsPrice}</AppText>
             </View>
             <View style={styles.row}>
                 <AppText>Taxes:</AppText>
-                <AppText>$ 10</AppText>
+                <AppText>$ {taxes}</AppText>
             </View>
             <View style={styles.row}>
                 <AppText>Shipping Fee:</AppText>
-                <AppText>$ 10</AppText>
+                <AppText>$ {shippingFee}</AppText>
             </View>
             <View style={styles.row}>
                 <AppText>Order Total:</AppText>
-                <AppText>$ 10</AppText>
+                <AppText>$ {itemsPrice+shippingFee+taxes}</AppText>
             </View>
         </View>
     )

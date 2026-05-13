@@ -6,14 +6,17 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Feather from '@expo/vector-icons/Feather';
 import { AppColors } from '../../styles/color';
 import App from '../../../App';
+import { removeProductFromCart } from '../../store/reducers/cartSlice';
+import { useDispatch } from 'react-redux';
 interface CartItemProps {
     imageURL: string;
     title: string;
     price: number;
-    quantity: number;
+    qty: number;
     onPress: () => void;
 }
-const CartItem = ({ imageURL, title, price, quantity, onPress }: CartItemProps) => {
+const CartItem = ({id, imageURL, title, price, qty, onPress,onReducePress,onIncreasePress,onDeletePress }: CartItemProps) => {
+    const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       {/* image cotnainer */}
@@ -25,16 +28,18 @@ const CartItem = ({ imageURL, title, price, quantity, onPress }: CartItemProps) 
          <AppText>{title}</AppText>
           <AppText>${price}</AppText>
           <View style={styles.quantityContainer}>
-            <Pressable onPress={onPress}style={styles.quantityButton}><Feather name="plus" size={s(20)} color={AppColors.primary} /></Pressable>
-            <AppText> {quantity}</AppText>
-            <Pressable onPress={onPress} style={styles.quantityButton}><Feather name="minus" size={s(20)} color={AppColors.primary} /></Pressable>
+            <Pressable onPress={onIncreasePress}style={styles.quantityButton}><Feather name="plus" size={s(20)} color={AppColors.primary} /></Pressable>
+            <AppText> {qty}</AppText>
+            <Pressable onPress={onReducePress} style={styles.quantityButton}><Feather name="minus" size={s(20)} color={AppColors.primary} /></Pressable>
           </View>
         </View>
         {/* delete icon */}
-        <View style={styles.deleteIcon}>
+        <Pressable style={styles.deleteIcon}
+        onPress={onDeletePress}
+        >
             <MaterialIcons name="delete" size={24} color={AppColors.red} />
           <AppText>Delete</AppText>
-        </View>
+        </Pressable>
     </View>
   )
 }
