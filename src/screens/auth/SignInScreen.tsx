@@ -18,7 +18,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { showMessage } from 'react-native-flash-message'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../../store/reducers/userSlice'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const schema = yup
     .object({
         email: yup
@@ -43,6 +43,10 @@ const SignInScreen = () => {
     const navigation = useNavigation()
     const { control, handleSubmit } = useForm<FormData>({
         resolver: yupResolver(schema),
+        defaultValues: {
+            email: __DEV__ ? 'test2@gmail.com' : '',
+            password:   __DEV__ ? '123456' : ''
+        }
     });
 
     const onLoginPress = async (data: FormData) => {
@@ -53,6 +57,7 @@ const SignInScreen = () => {
         data.password
       )
       dispatch(setUser({ uid: userCredential.user.uid }))
+      storeData({uid: userCredential.user.uid})
       navigation.navigate("Main")
       
     } catch (error:any) {
@@ -79,6 +84,13 @@ const SignInScreen = () => {
             message: errorMessage,
         })
     }
+    }
+    const storeData = async (userData: any) => {
+        try {
+            await AsyncStorage.setItem('USER_DATA', JSON.stringify(userData));  
+        } catch (error) {
+            console.log('Error storing user data:', error);
+        }
     }
     return (
         <AppSaveView style={styles.container}>

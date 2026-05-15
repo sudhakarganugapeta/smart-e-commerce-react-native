@@ -6,8 +6,12 @@ import ProfileSectionButton from '../../components/buttons/ProfileSectionButton'
 import { s } from 'react-native-size-matters'
 import { AppColors } from '../../styles/color'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../store/reducers/userSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const ProfileScreen = () => {
-  const navigate = useNavigation()
+  const navigate = useNavigation();
+  const dispatch = useDispatch()
   return (
   <AppSaveView>
     <HomeHeader></HomeHeader>
@@ -19,7 +23,11 @@ const ProfileScreen = () => {
     onPress={() => console.log('Language pressed')}/>
       <ProfileSectionButton 
     title='Logout'
-    onPress={() => console.log('Logout pressed')}/>
+    onPress={() => {
+      AsyncStorage.removeItem('USER_DATA')
+      dispatch(setUser({}));
+      navigate.navigate('Auth');
+    }}/>
   </AppSaveView>
   )
 }

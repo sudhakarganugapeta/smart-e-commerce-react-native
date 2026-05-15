@@ -10,7 +10,7 @@ import SignInScreen from './src/screens/auth/SignInScreen';
 import AuthStack from './src/navigation/AuthStack';
 import { NavigationContainer } from '@react-navigation/native';
 import MainAppStack from './src/navigation/MainAppStack';
-import {useFonts} from 'expo-font'
+import { useFonts } from 'expo-font'
 import { Provider } from 'react-redux';
 import { store } from './src/store/store';
 
@@ -24,22 +24,22 @@ export default function App() {
     return null; // or a loading indicator
   }
   return (
-<>
-<Provider store={store}>
- <AppSaveView>
-  <NavigationContainer>
-  <FlashMessage position={"top"}/>
-   <MainAppStack/>
-  </NavigationContainer>
- </AppSaveView>
+    <>
+      <Provider store={store}>
+        <AppSaveView>
+          <NavigationContainer>
+            <FlashMessage position={"top"} />
+            <MainAppStack />
+          </NavigationContainer>
+        </AppSaveView>
 
-</Provider>
-</>
+      </Provider>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-   
+
   },
 });
